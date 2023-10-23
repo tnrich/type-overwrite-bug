@@ -23,3 +23,17 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.overwrite(
+  "type",
+  (originalFn, element, text, options = {}) => {
+    // this code works:
+    // return originalFn(element, text, options);
+    
+    // // this code does not work:
+    cy.wait(0).then(() => {
+      // run the original type command on the same element
+      return originalFn(element, text, options);
+    });
+  }
+);
